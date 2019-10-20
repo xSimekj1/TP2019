@@ -9,11 +9,11 @@ import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'Home', component: HomeComponent },
   { path: 'O-projekte', component: AboutComponent },
   { path: 'Team', component: TeamComponent },
   { path: 'Stretnutia', component: MeetingsComponent },
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  { path: '',   redirectTo: '/Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

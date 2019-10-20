@@ -1,0 +1,14 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    
+    width: 100%;
+    min-height: 30px;
+    -webkit-box-shadow: 0.2px 0.2px 5px 0px rgba(212,212,212,1);
+    -moz-box-shadow: 0.2px 0.2px 5px 0px rgba(212,212,212,1);
+    box-shadow: 0.2px 0.2px 5px 0px rgba(212,212,212,1);
+}
+
+.menu-item {
+    margin: 0 10px;
+}

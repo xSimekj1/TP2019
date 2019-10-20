@@ -1,1 +1,10 @@
-<p>menu works!</p>
+<nav class="navbar">
+    <div class="control-menu">
+        <div *ngFor="let data of fakeData" class="menu-item chip" [ngClass]="isRouteActive(data.url) ? 'active' : 'inactive'">
+            <a [routerLink]="data.url" class="chip">
+                <img [src]="data.img" alt="Person" width="96" height="96">
+                {{data.name}}
+            </a>
+        </div>
+    </div>
+</nav>
