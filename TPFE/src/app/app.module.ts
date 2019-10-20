@@ -9,6 +9,7 @@ import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
+import { MemberComponent } from './member/member.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { MenuComponent } from './menu/menu.component';
     AboutComponent,
     PageNotFoundComponent,
     HomeComponent,
-    MenuComponent
+    MenuComponent,
+    MemberComponent
   ],
   imports: [
     BrowserModule,

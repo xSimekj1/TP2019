@@ -11,6 +11,11 @@ a {
   text-decoration: none;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
 // CARD CSS HERE
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -36,7 +41,7 @@ a {
 }
 
 .card-wrapper {
-    margin-top: 100px;
+    margin-top: 20px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -45,7 +50,7 @@ a {
     align-content: stretch;
     .card {
         margin: 10px 5px;
-        min-width: 250px;
+        min-width: 200px;
         max-width: 300px;
     }
 }

@@ -1,1 +1,12 @@
-<p>team works!</p>
+<div class="center">
+    <h2 class="headline">Rozloženie tímu</h2>
+</div>
+<div class="card-wrapper">
+    <div *ngFor="let data of fakeData" class="card card-rounded">
+        <img [src]="data.img" class="img-rounded-top" alt="Avatar" style="width:100%">
+        <div class="container">
+            <h4><b>{{data.name}}</b></h4>
+            <p>{{data.position}}</p>
+        </div>
+    </div>
+</div>
