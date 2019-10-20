@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  fakeData = [
+    {name: 'Tím', img: './assets/img_avatar.png', url: '/Team'},
+    {name: 'Zápisnice', img: './assets/img_avatar.png', url: '/Stretnutia'},
+    {name: 'O-Projekte', img: './assets/img_avatar.png', url: '/O-projekte'}
+  ];
+
   constructor() { }
 
   ngOnInit() {

@@ -1,1 +1,49 @@
+
 /* You can add global styles to this file, and also import other style files */
+body {
+ font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+ background: rgb(237,237,234);
+ background: radial-gradient(circle, rgba(237,237,234,1) 0%, rgba(244,244,246,1) 42%, rgba(247,247,247,1) 100%);
+}
+
+a {
+  text-decoration: none;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  &.card-rounded {
+      border-radius: 5px; /* 5px rounded corners */
+    }
+}
+
+.img-rounded {
+    border-radius: 5px;
+}
+
+.img-rounded-top {
+    border-radius: 5px 5px 0px 0px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+.container {
+  padding: 2px 16px;
+}
+
+.card-wrapper {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+    .card {
+        margin: 10px 5px;
+        min-width: 250px;
+        max-width: 300px;
+    }
+}
