@@ -1,12 +1,28 @@
 <div class="center">
-    <h2 class="headline">Rozloženie tímu</h2>
+    <h2 *ngIf="!memeberSelected" class="headline">Rozloženie tímu</h2>
 </div>
-<div class="card-wrapper">
-    <div *ngFor="let data of fakeData" class="card card-rounded clickable" (click)="openNgModal('Jakub Šimek', ['Študent FEI'])">
+<div *ngIf="!memeberSelected" class="card-wrapper">
+    <div *ngFor="let data of fakeData" class="card card-rounded clickable" (click)="selectMember(data.id)">
         <img [src]="data.img" class="img-rounded-top" alt="Avatar" style="width:100%">
         <div class="container">
             <h4><b>{{data.name}}</b></h4>
             <p>{{data.position}}</p>
+        </div>
+    </div>
+</div>
+<div *ngIf="memeberSelected" class="member-info">
+    <span>
+        <img src="./assets/back.svg" alt="back" class="back-btn" (click)="memeberSelected = null">
+    </span>
+    <div class="col-25">
+        <img [src]="memeberSelected.img" [alt]="memeberSelected.name" class="member-info-img">
+    </div>
+    <div class="col-75">
+        <div class="member-info-container">
+            <h4>{{memeberSelected.name}}</h4>
+            <hr>
+            <p><b>{{memeberSelected.position}}</b></p>
+            <p>{{memeberSelected.description}}</p>
         </div>
     </div>
 </div>

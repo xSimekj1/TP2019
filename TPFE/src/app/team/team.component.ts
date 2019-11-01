@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalComponent } from '../modal/modal.component';
-
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
@@ -10,29 +7,22 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class TeamComponent implements OnInit {
 
-  bsModalRef: BsModalRef;
+  memeberSelected;
 
   fakeData = [
-    {name: 'Jakub Šimek', img: './assets/img_avatar.png', position: 'Frontend Developer'},
-    {name: 'Boris Hvozda', img: './assets/img_avatar.png', position: 'Backend Developer'},
-    {name: 'Eduardo Martinez', img: './assets/img_avatar.png', position: 'Not Selected'},
-    {name: 'Nikola Zarembova', img: './assets/img_avatar.png', position: 'Not Selected'},
-    {name: 'Patricia Hulinova', img: './assets/img_avatar.png', position: 'Not Selected'}
+    {id: 1, name: 'Jakub Šimek', img: './assets/img_avatar.png', position: 'Frontend Developer', description: 'Popis'},
+    {id: 2, name: 'Boris Hvozda', img: './assets/img_avatar.png', position: 'Backend Developer', description: 'Popis'},
+    {id: 3, name: 'Eduardo Martinez', img: './assets/img_avatar.png', position: 'Not Selected', description: 'Popis'},
+    {id: 4, name: 'Nikola Zarembova', img: './assets/img_avatar.png', position: 'Not Selected', description: 'Popis'},
+    {id: 5, name: 'Patricia Hulinova', img: './assets/img_avatar.png', position: 'Not Selected', description: 'Popis'}
   ];
 
-  constructor(
-    private modalService: BsModalService
-  ) { }
+  constructor() { }
 
   ngOnInit() { }
 
-  openNgModal(title: string, message: Array<string>) {
-    const initialState = {
-      list: message,
-      title: title
-    };
-    this.bsModalRef = this.modalService.show(ModalComponent, { initialState });
-    this.bsModalRef.content.closeBtnName = 'Zavrieť';
+  selectMember(id: number) {
+    this.memeberSelected = this.fakeData.find(person => person.id === id);
   }
 
 }

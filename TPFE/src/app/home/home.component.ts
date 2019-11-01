@@ -8,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   fakeData = [
-    {name: 'Tím', img: './assets/img_avatar.png', url: '/Team'},
-    {name: 'Zápisnice', img: './assets/img_avatar.png', url: '/Stretnutia'},
-    {name: 'O-Projekte', img: './assets/img_avatar.png', url: '/O-projekte'}
+    {name: 'Tím', img: './assets/team.svg', url: '/Team'},
+    {name: 'Zápisnice', img: './assets/documents.svg', url: '/Stretnutia'},
+    {name: 'O-Projekte', img: './assets/about.svg', url: '/O-projekte'}
   ];
 
   constructor() { }

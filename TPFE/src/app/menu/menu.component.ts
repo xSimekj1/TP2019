@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 export class MenuComponent implements OnInit {
 
   fakeData = [
-    {name: 'Home', img: './assets/img_avatar.png', url: '/Home'},
-    {name: 'Tím', img: './assets/img_avatar.png', url: '/Team'},
-    {name: 'Zápisnice', img: './assets/img_avatar.png', url: '/Stretnutia'},
-    {name: 'O-Projekte', img: './assets/img_avatar.png', url: '/O-projekte'}
+    {name: 'Home', img: './assets/home.svg', url: '/Home'},
+    {name: 'Tím', img: './assets/team.svg', url: '/Team'},
+    {name: 'Zápisnice', img: './assets/documents.svg', url: '/Stretnutia'},
+    {name: 'O-Projekte', img: './assets/about.svg', url: '/O-projekte'}
   ];
 
   constructor(

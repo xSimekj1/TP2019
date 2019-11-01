@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
-// External Libraries
-import { ModalModule } from 'ngx-bootstrap/modal';
 
 // Components
 import { AppComponent } from './app.component';
@@ -14,8 +12,6 @@ import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
-import { MemberComponent } from './member/member.component';
-import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -25,16 +21,12 @@ import { ModalComponent } from './modal/modal.component';
     AboutComponent,
     PageNotFoundComponent,
     HomeComponent,
-    MenuComponent,
-    MemberComponent,
-    ModalComponent
+    MenuComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ModalModule.forRoot()
+    AppRoutingModule
   ],
-  entryComponents: [ModalComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
