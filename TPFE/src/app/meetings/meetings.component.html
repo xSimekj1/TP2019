@@ -1,1 +1,13 @@
-<p>meetings works!</p>
+<div class="container">
+    <div class="left-panel">
+        <ul>
+            <li *ngFor="let meeting of meetings" (click)="openDoc(meeting.id)">{{meeting.name}}</li>
+        </ul>
+    </div>
+    <div class="meeting">
+        <embed src="../../assets/meetings/Zapisnica_c1.pdf" width="500" height="375" type="application/pdf">
+    </div>
+    <div class="right-panel">
+        <a href="../../assets/meetings/Zapisnica_c1.pdf" download>Stiahnúť dokument</a>
+    </div>
+</div>

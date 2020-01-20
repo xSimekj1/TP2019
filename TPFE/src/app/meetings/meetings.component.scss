@@ -1,0 +1,29 @@
+li {
+    list-style-type: none;
+    padding: 10px 25px;
+    margin-bottom: 15px;
+    border-radius: 25px;
+    background-color: #ededea;
+    cursor: pointer;
+    &:hover {
+        transition: 0.5s;
+        background-color: #d6d6d6;
+    }
+}
+
+.container {
+    min-width: fit-content;
+    display: flex;
+    justify-content: center;
+}
+
+ul {
+    padding: 0;
+}
+
+.left-panel {
+    background-color: #f7f7f7;    
+    border-radius: 5px;
+    padding: 30px 30px;
+
+}

@@ -1,10 +1,10 @@
 <nav class="navbar">
     <div class="control-menu">
-        <div *ngFor="let data of fakeData" class="menu-item chip" [ngClass]="isRouteActive(data.url) ? 'active' : 'inactive'">
-            <a [routerLink]="data.url" class="chip">
-                <img [src]="data.img" alt="Person" width="96" height="96">
-                {{data.name}}
-            </a>
+        <a *ngFor="let data of fakeData" [routerLink]="data.url" class="menu-link">
+        <div  class="menu-item chip" [ngClass]="isRouteActive(data.url) ? 'active' : 'inactive'">
+            <img [src]="data.img" alt="Person" width="96" height="96">
+            {{data.name}}
         </div>
+        </a>
     </div>
 </nav>

@@ -11,16 +11,15 @@
     </div>
 </div>
 <div *ngIf="memeberSelected" class="member-info">
-    <span>
-        <img src="./assets/back.svg" alt="back" class="back-btn" (click)="memeberSelected = null">
-    </span>
-    <div class="col-25">
-        <img [src]="memeberSelected.img" [alt]="memeberSelected.name" class="member-info-img">
+    <div class="member-heading flex-row">
+        <span class="col-25"><img src="./assets/back.svg" alt="back" class="back-btn" (click)="memeberSelected = null"></span>
+        <h4 class="member-name">{{memeberSelected.name}}</h4>
+        <span class="col-25"></span>
     </div>
-    <div class="col-75">
+    <hr>
+    <div class="info">
+        <img [src]="memeberSelected.img" [alt]="memeberSelected.name" class="member-info-img">
         <div class="member-info-container">
-            <h4>{{memeberSelected.name}}</h4>
-            <hr>
             <p><b>{{memeberSelected.position}}</b></p>
             <p>{{memeberSelected.description}}</p>
         </div>
