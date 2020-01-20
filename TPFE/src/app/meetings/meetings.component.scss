@@ -1,5 +1,6 @@
 li {
     list-style-type: none;
+    white-space: nowrap;
     padding: 10px 25px;
     margin-bottom: 15px;
     border-radius: 25px;
@@ -25,5 +26,37 @@ ul {
     background-color: #f7f7f7;    
     border-radius: 5px;
     padding: 30px 30px;
-
 }
+
+.meeting {
+    embed {
+        width: 1024px;
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 1300px) {
+    .left-panel {
+        border-radius: 5px;
+        padding: 15px 15px;
+    }
+    .meeting {
+        embed {
+            width: 580px;
+            height: 100%;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .left-panel { 
+        border-radius: 5px;
+        padding: 5px 5px;
+    }
+    .meeting {
+        embed {
+            width: 400px;
+            height: 100%;
+        }
+    }
+  }
