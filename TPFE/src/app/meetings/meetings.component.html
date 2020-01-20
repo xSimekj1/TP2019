@@ -1,11 +1,21 @@
 <div class="container">
+    {{openedMeeting | json}}
     <div class="left-panel">
         <ul>
             <li *ngFor="let meeting of meetings" (click)="openDoc(meeting.id)">{{meeting.name}}</li>
         </ul>
     </div>
     <div class="meeting">
-        <embed src="../../assets/meetings/Zapisnica_c1.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 1" src="../../assets/meetings/Zapisnica_c1.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 2" src="../../assets/meetings/Zapisnica_c2.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 3" src="../../assets/meetings/Zapisnica_c3.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 4" src="../../assets/meetings/Zapisnica_c4.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 5" src="../../assets/meetings/Zapisnica_c5.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 6" src="../../assets/meetings/Zapisnica_c6.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 7" src="../../assets/meetings/Zapisnica_c7.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 8" src="../../assets/meetings/Zapisnica_c8.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 9" src="../../assets/meetings/Zapisnica_c9.pdf" width="500" height="375" type="application/pdf">
+        <embed *ngIf="openedMeeting.id === 10" src="../../assets/meetings/Zapisnica_c10.pdf" width="500" height="375" type="application/pdf">
     </div>
     <div class="right-panel">
         <a href="../../assets/meetings/Zapisnica_c1.pdf" download>Stiahnúť dokument</a>
