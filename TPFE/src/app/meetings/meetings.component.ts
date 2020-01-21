@@ -31,4 +31,12 @@ export class MeetingsComponent implements OnInit {
     this.openedMeeting = this.meetings.find(meeting => meeting.id === docId);
   }
 
+  isDocOpened(docId): boolean {
+    if (this.openedMeeting.id === docId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

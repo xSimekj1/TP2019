@@ -9,7 +9,10 @@ li {
     &:hover {
         transition: 0.5s;
         background-color: #d6d6d6;
-    }
+    } 
+    &.active {
+    background-color: #8BBF50;
+  }
 }
 
 .container {
