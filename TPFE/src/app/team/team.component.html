@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="!memeberSelected" class="card-wrapper">
     <div *ngFor="let data of fakeData" class="card card-rounded clickable" (click)="selectMember(data.id)">
-        <img [src]="data.img" class="img-rounded-top" alt="Avatar" style="width:100%">
+        <img [src]="data.img" class="img-rounded-top team-list-img" alt="Avatar" style="width:100%">
         <div class="container">
             <h4><b>{{data.name}}</b></h4>
             <p>{{data.position}}</p>

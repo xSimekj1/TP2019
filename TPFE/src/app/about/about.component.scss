@@ -1,25 +1,68 @@
 .about-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 25px;
+  padding: 25px 50px;
+  background-color: #f7f7f7;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  .tasks {
+    padding-left: 20px;
+  }
+}
+
+.link-wrapper {
+    justify-content: space-evenly;
     display: flex;
-    flex-direction: column;
-    margin: 25px 50px;
-    padding: 25px 50px;
-    background-color: #f7f7f7;
-    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0,0,0,.12);
-    .tasks {
-        padding-left: 20px;
+    flex-wrap: nowrap;
+    margin: 40px 25px;
+  }
+
+.card-link {
+  max-width: 600px;
+  width: 50%;
+  flex-grow: 1;
+  margin: 10px 0;
+  background-color: #f7f7f7;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  &:nth-child(1) {margin-right: 15px;}
+  &:nth-child(2) {margin-left: 15px;}
+  a {
+    .link-img {
+      width: 100%;
+      height: auto;
     }
+  }
 }
 
 @media only screen and (max-width: 768px) {
-    .about-container {
-        margin: 10px 15px;
-        padding: 15px 25px;
-    }
+  .about-container {
+    margin: 10px 15px;
+    padding: 15px 25px;
   }
+  .link-wrapper {
+    margin: 10px 15px;
+  }
+}
+
+@media only screen and (max-width: 640px) { 
+    .link-wrapper {
+        flex-wrap: wrap;
+    }
+    .card-link {
+        width: auto;
+      &:nth-child(1) {margin-right: 0;}
+      &:nth-child(2) {margin-left: 0;}
+    }
+}
 
 @media only screen and (max-width: 475px) {
-    .about-container {
-        margin: 10px 10px;
-        padding: 10px 10px;
-    }
+  .about-container {
+    margin: 10px 10px;
+    padding: 10px 10px;
   }
+  .link-wrapper {
+    margin: 10px 10px;
+  }
+}
