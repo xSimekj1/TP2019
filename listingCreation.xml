@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://modeler.netgrif.com/petriflow_schema.xsd">
+    <!-- ROLE -->
+    <role>
+        <id>admin</id>
+        <title>Admin</title>
+    </role>
+    <role>
+        <id>customer</id>
+        <title>Customer</title>
+    </role>
+    <role>
+        <id>system</id>
+        <title>System</title>
+    </role>
+    <!-- DATA -->
+    <data type="text">
+        <id>listing_name</id>
+        <title>Listing name</title>
+    </data>
+    <data type="enumeration">
+        <id>type</id>
+        <title>System</title>
+        <values>Hotel</values>
+        <values>Restaurant</values>
+        <values>Health service</values>
+    </data>
+    <data type="enumeration">
+        <id>location</id>
+        <title>Location</title>
+        <values>Bratislava</values>
+        <values>Kosice</values>
+        <values>Nitra</values>
+        <values>Zvolen</values>
+    </data>
+    <data type="boolean">
+        <id>payment</id>
+        <title>Payment</title>
+        <init>false</init>
+<!--        <action trigger="set">-->
+<!--            payment: f.this,-->
+<!--            price: f.price;-->
+
+<!--            change disapproveArc about { return decision.value ? 0 : 1; }-->
+<!--            make price,visible on create when {-->
+<!--            return payment.value == true;-->
+<!--            }-->
+<!--        </action>-->
+    </data>
+    <data type="number">
+        <id>price</id>
+        <title>Price</title>
+        <valid>positive</valid>
+    </data>
+    <data type="text">
+        <id>name</id>
+        <title>Name</title>
+    </data>
+    <data type="text">
+        <id>surname</id>
+        <title>Surname</title>
+    </data>
+<!--    <data type="date">-->
+<!--        <id>date_of_birth</id>-->
+<!--        <title>Date of birth</title>-->
+<!--    </data>-->
+<!--    <data type="date">-->
+<!--        <id>dateFrom</id>-->
+<!--        <title>Date from</title>-->
+<!--    </data>-->
+<!--    <data type="date">-->
+<!--        <id>dateTo</id>-->
+<!--        <title>Date to</title>-->
+<!--    </data>-->
+    <data type="text">
+        <id>tel_number</id>
+        <title>Phone number</title>
+        <placeholder>+421 901 000 000</placeholder>
+        <valid>regex("^[+]([0-9]+)([ ]?[0-9])+\$")</valid>
+    </data>
+    <data type="text">
+        <id>email</id>
+        <title>E-mail</title>
+        <placeholder>name@gmail.com</placeholder>
+        <valid>email</valid>
+    </data>
+    <data type="number">
+        <id>capacity</id>
+        <title>Capacity</title>
+        <valid>positive</valid>
+        <init>0</init>
+    </data>
+<!--    <data type="text">-->
+<!--        <id>insurance</id>-->
+<!--        <title>Insurance number</title>-->
+<!--        <placeholder>000000/0000</placeholder>-->
+<!--    </data>-->
+    <data type="boolean">
+        <id>approved</id>
+        <title>Approved date</title>
+    </data>
+    <data type="boolean">
+        <id>is_active</id>
+        <title></title>
+        <init>false</init>
+    </data>
+    <transition>
+        <id>2</id>
+        <x>318</x>
+        <y>200</y>
+        <label>Create</label>
+        <assignPolicy>auto</assignPolicy>
+        <roleRef>
+            <id>admin</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <dataGroup>
+            <id>1</id>
+            <dataRef>
+                <id>listing_name</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>type</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>location</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>name</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>surname</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>tel_number</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>email</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>capacity</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>payment</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                    <action trigger="set">
+                        payment: f.payment,
+                        price: f.price,
+                        create: t.2;
+<!--                        NEVIEME DAT AJ REQUIRED AJ VISIBLE-->
+<!--                        make price,required on create when { return payment.value == true; }-->
+                        make price,editable on create when { return payment.value == true; }
+<!--                        change price value { (10) } when { return payment.value == true; }-->
+
+<!--                        make price,optional on create when { return payment.value == false; }-->
+                        make price,hidden on create when { return payment.value == false; }
+                    </action>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>price</id>
+                <logic>
+                    <behavior>hidden</behavior>
+                </logic>
+            </dataRef>
+        </dataGroup>
+        <event type="finish">
+            <id>1</id>
+            <actions phase="post">
+                <action>
+                    is_active: f.is_active; change is_active value { (true) }
+                </action>
+            </actions>
+        </event>
+    </transition>
+    <transition>
+        <id>6</id>
+        <x>354</x>
+        <y>302</y>
+        <label>Deactivate</label>
+        <roleRef>
+            <id>admin</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <event type="finish">
+            <id>1</id>
+            <actions phase="post">
+                <action>
+                    is_active: f.is_active; change is_active value { (false) }
+                </action>
+            </actions>
+        </event>
+    </transition>
+    <transition>
+        <id>7</id>
+        <x>514</x>
+        <y>301</y>
+        <label>Activate</label>
+        <roleRef>
+            <id>admin</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <event type="finish">
+            <id>1</id>
+            <actions phase="post">
+                <action>
+                    is_active: f.is_active; change is_active value { true }
+                </action>
+            </actions>
+        </event>
+    </transition>
+    <transition>
+        <id>13</id>
+        <x>550</x>
+        <y>86</y>
+        <label>Show</label>
+        <roleRef>
+            <id>admin</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <dataGroup>
+            <id>show_group</id>
+            <dataRef>
+                <id>listing_name</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>location</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>name</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>surname</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>tel_number</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>email</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>capacity</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>payment</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>price</id>
+                <logic>
+                    <behavior>hidden</behavior>
+                    <action trigger="get">
+                        payment: f.payment,
+                        price: f.price,
+                        show: t.13;
+                        <!--                        NEVIEME DAT AJ REQUIRED AJ VISIBLE-->
+                        <!--                        make price,required on create when { return payment.value == true; }-->
+                        make price,visible on show when { return payment.value == true; }
+                        <!--                        change price value { (10) } when { return payment.value == true; }-->
+
+                        <!--                        make price,optional on create when { return payment.value == false; }-->
+                        make price,hidden on show when { return payment.value == false; }
+                    </action>
+                </logic>
+            </dataRef>
+        </dataGroup>
+    </transition>
+    <transition>
+        <id>14</id>
+        <x>577</x>
+        <y>200</y>
+        <label>Edit</label>
+        <roleRef>
+            <id>admin</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <dataGroup>
+            <id>edit_group</id>
+            <dataRef>
+                <id>listing_name</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>location</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>name</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>surname</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>tel_number</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>email</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>capacity</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>payment</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                    <action trigger="set">
+                        payment: f.payment,
+                        price: f.price,
+                        edit: t.14;
+                        <!--                        NEVIEME DAT AJ REQUIRED AJ VISIBLE-->
+                        <!--                        make price,required on create when { return payment.value == true; }-->
+                        make price,editable on edit when { return payment.value == true; }
+                        <!--                        change price value { (10) } when { return payment.value == true; }-->
+
+                        <!--                        make price,optional on create when { return payment.value == false; }-->
+                        make price,hidden on edit when { return payment.value == false; }
+                    </action>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>price</id>
+                <logic>
+                    <behavior>hidden</behavior>
+                    <action trigger="get">
+                        payment: f.payment,
+                        price: f.price,
+                        edit: t.14;
+                        <!--                        NEVIEME DAT AJ REQUIRED AJ VISIBLE-->
+                        <!--                        make price,required on create when { return payment.value == true; }-->
+                        make price,editable on edit when { return payment.value == true; }
+                        <!--                        change price value { (10) } when { return payment.value == true; }-->
+
+                        <!--                        make price,optional on create when { return payment.value == false; }-->
+                        make price,hidden on edit when { return payment.value == false; }
+                    </action>
+                </logic>
+            </dataRef>
+        </dataGroup>
+    </transition>
+    <place>
+        <id>1</id>
+        <x>214</x>
+        <y>199</y>
+        <label>IN</label>
+        <tokens>1</tokens>
+        <static>false</static>
+    </place>
+    <place>
+        <id>4</id>
+        <x>437</x>
+        <y>201</y>
+        <label>active</label>
+        <tokens>0</tokens>
+        <static>false</static>
+    </place>
+    <place>
+        <id>9</id>
+        <x>432</x>
+        <y>404</y>
+        <label>inactive</label>
+        <tokens>0</tokens>
+        <static>false</static>
+    </place>
+    <arc>
+        <id>3</id>
+        <type>regular</type>
+        <sourceId>1</sourceId>
+        <destinationId>2</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>5</id>
+        <type>regular</type>
+        <sourceId>2</sourceId>
+        <destinationId>4</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>8</id>
+        <type>regular</type>
+        <sourceId>4</sourceId>
+        <destinationId>6</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>10</id>
+        <type>regular</type>
+        <sourceId>6</sourceId>
+        <destinationId>9</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>11</id>
+        <type>regular</type>
+        <sourceId>9</sourceId>
+        <destinationId>7</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>12</id>
+        <type>regular</type>
+        <sourceId>7</sourceId>
+        <destinationId>4</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>16</id>
+        <type>regular</type>
+        <sourceId>4</sourceId>
+        <destinationId>14</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>17</id>
+        <type>regular</type>
+        <sourceId>14</sourceId>
+        <destinationId>4</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>27</id>
+        <type>read</type>
+        <sourceId>4</sourceId>
+        <destinationId>13</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+</document>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://modeler.netgrif.com/petriflow_schema.xsd">
+	<!-- ROLES-->
+	<role>
+		<id>customer</id>
+		<title>Customer</title>
+	</role>
+	<role>
+		<id>system</id>
+		<title>System</title>
+	</role>
+	<!-- DATA-->
+	<data type="text">
+		<id>listing</id>
+		<title>Listing</title>
+	</data>
+	<data type="text">
+		<id>name</id>
+		<title>name</title>
+	</data>
+	<data type="text">
+		<id>surname</id>
+		<title>surname</title>
+	</data>
+	<data type="text">
+		<id>price</id>
+		<title>price</title>
+	</data>
+	<data type="text">
+		<id>status</id>
+		<title>Status</title>
+	</data>
+	<!-- TRANSITIONS -->
+	<transition>
+		<id>2</id>
+		<x>218</x>
+		<y>206</y>
+		<label>transaction</label>
+		<roleRef>
+			<id>customer</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>transactionData</id>
+			<dataRef>
+				<id>listing</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>name</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>surname</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>status</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>price</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<!-- PLACES -->
+	<place>
+		<id>1</id>
+		<x>114</x>
+		<y>208</y>
+		<label></label>
+		<tokens>1</tokens>
+		<static>false</static>
+	</place>
+	<!-- ARCS -->
+	<arc>
+		<id>3</id>
+		<type>regular</type>
+		<sourceId>1</sourceId>
+		<destinationId>2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+</document>

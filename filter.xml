@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://modeler.netgrif.com/petriflow_schema.xsd">
+	<!-- ROLES -->
+	<role>
+		<id>client</id>
+		<name>client</name>
+	</role>
+	<role>
+		<id>system</id>
+		<name>system</name>
+	</role>
+	<!-- DATA -->
+	<data type="enumeration">
+		<id>location</id>
+		<title>Location</title>
+		<values>Bratislava</values>
+		<values>Kosice</values>
+		<values>Nitra</values>
+		<values>Zvolen</values>
+	</data>
+	<data type="enumeration">
+		<id>type</id>
+		<title>System</title>
+		<values>Hotel</values>
+		<values>Restaurant</values>
+		<values>Health service</values>
+	</data>
+	<data type="enumeration">
+		<id>results</id>
+		<title>Results</title>
+	</data>
+	<data type="date">
+		<id>date_from</id>
+		<title>Date from</title>
+	</data>
+	<data type="date">
+		<id>date_to</id>
+		<title>Date to</title>
+	</data>
+	<data type="number">
+		<id>persons</id>
+		<title>Počet osôb</title>
+		<placeholder>Zadajte počet osôb</placeholder>
+		<init>0</init>
+	</data>
+	<data type="date">
+		<id>free_dates</id>
+		<title>Free Days to reserve</title>
+	</data>
+	<data type="text">
+		<id>result_type</id>
+		<title>Type</title>
+	</data>
+	<data type="text">
+		<id>result_location</id>
+		<title>Location</title>
+	</data>
+	<data type="text">
+		<id>result_listing_name</id>
+		<title>Listing Name</title>
+	</data>
+	<data type="text">
+		<id>result_name</id>
+		<title>Name</title>
+	</data>
+	<data type="text">
+		<id>result_surname</id>
+		<title>Surname</title>
+	</data>
+	<data type="text">
+		<id>result_phone</id>
+		<title>Phone</title>
+	</data>
+	<data type="text">
+		<id>result_email</id>
+		<title>Email</title>
+	</data>
+	<data type="boolean">
+		<id>result_payment</id>
+		<title>Payment</title>
+	</data>
+	<data type="text">
+		<id>result_price</id>
+		<title>Price</title>
+	</data>
+	<data type="text">
+		<id>reservation_info</id>
+		<title>Continue booking</title>
+		<placeholder>Do you want to book this listing?</placeholder>
+	</data>
+	<!-- TRANSITIONS -->
+	<transition>
+		<id>2</id>
+		<x>470</x>
+		<y>243</y>
+		<label>find</label>
+		<roleRef>
+			<id>client</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>1</id>
+			<dataRef>
+				<id>type</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>location</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>date_from</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>date_to</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>persons</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>1</id>
+			<actions phase="post">
+				<action trigger="set">
+					type: f.type,
+					location: f.location,
+					persons: f.persons,
+					results: f.results;
+
+					List listingResults = findCases({it.title.eq("listing")});
+
+					change results choices {
+						return listingResults.findAll{
+							((it.dataSet["type"].value as String) == (type.value as String)) &amp;&amp;
+							((it.dataSet["location"].value as String) == (location.value as String)) &amp;&amp;
+							((it.dataSet["capacity"].value as Integer) >= (persons.value as Integer))
+						}.collect{
+							it.dataSet.get("listing_name").value
+						}.unique();
+					}
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>4</id>
+		<x>623</x>
+		<y>345</y>
+		<label>get back (because 0 results, or dont like results)</label>
+		<roleRef>
+			<id>client</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+	</transition>
+	<transition>
+		<id>6</id>
+		<x>721</x>
+		<y>241</y>
+		<label>result list</label>
+		<roleRef>
+			<id>client</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>result_data</id>
+			<dataRef>
+				<id>results</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>getDetail</id>
+			<actions phase="post">
+				<action trigger="set">
+					rtype: f.result_type,
+					rlocation: f.result_location,
+					rlisting: f.result_listing_name,
+					rname: f.result_name,
+					rsurname: f.result_surname,
+					rphone: f.result_phone,
+					rmail: f.result_email,
+					rpayment: f.result_payment,
+					rprice: f.result_price,
+					results: f.results;
+
+					def detail = findCase({it.dataSet.get("listing_name").value.eq(results.value as String)});
+					change rtype value {
+					 return detail.dataSet["type"].value as String
+					}
+					change rlocation value {
+					return detail.dataSet["location"].value as String
+					}
+					change rlisting value {
+					return detail.dataSet["listing_name"].value as String
+					}
+					change rname value {
+					return detail.dataSet["name"].value as String
+					}
+					change rsurname value {
+					return detail.dataSet["surname"].value as String
+					}
+					change rphone value {
+					return detail.dataSet["tel_number"].value as String
+					}
+					change rmail value {
+					return detail.dataSet["email"].value as String
+					}
+					change rpayment value {
+					return detail.dataSet["payment"].value as String
+					}
+					change rprice value {
+					return detail.dataSet["price"].value as String
+					}
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>17</id>
+		<x>961</x>
+		<y>241</y>
+		<label>detail</label>
+		<roleRef>
+			<id>system</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>1</id>
+			<dataRef>
+				<id>result_type</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>result_location</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>result_listing_name</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>result_name</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>result_surname</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>result_phone</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>result_email</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<transition>
+		<id>24</id>
+		<x>715</x>
+		<y>124</y>
+		<label>back to result list</label>
+		<roleRef>
+			<id>client</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+	</transition>
+	<transition>
+		<id>25</id>
+		<x>957</x>
+		<y>115</y>
+		<label>pre-reservation</label>
+		<roleRef>
+			<id>client</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>preResData</id>
+			<dataRef>
+				<id>reservation_info</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>create_reservation</id>
+			<actions phase="post">
+				<action trigger="set">
+					type: f.result_type,
+					payment: f.result_payment,
+					price: f.result_price,
+					listing: f.result_listing_name,
+					dateFrom: f.date_from,
+					dateTo: f.date_to;
+					def caze = createCase("PAY", "PAY", "green");
+					def initTask = assignTask("88", caze);
+					setData(initTask,[ "type": ["value": type.value, "type": "text"], "listing": ["value": listing.value, "type": "text"], "payment": ["value": payment.value, "type": "boolean"], "price": ["value": price.value, "type": "text"], "dateFrom": ["value": dateFrom.value as String, "type": "date"], "dateTo": ["value": dateTo.value as String, "type": "date"]]);
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<!-- PLACES -->
+	<place>
+		<id>1</id>
+		<x>231</x>
+		<y>246</y>
+		<label></label>
+		<tokens>1</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>3</id>
+		<x>622</x>
+		<y>241</y>
+		<label></label>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>23</id>
+		<x>835</x>
+		<y>236</y>
+		<label></label>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<!-- ARCS -->
+	<arc>
+		<id>7</id>
+		<type>regular</type>
+		<sourceId>1</sourceId>
+		<destinationId>2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>8</id>
+		<type>regular</type>
+		<sourceId>2</sourceId>
+		<destinationId>3</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>9</id>
+		<type>regular</type>
+		<sourceId>3</sourceId>
+		<destinationId>4</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>11</id>
+		<type>regular</type>
+		<sourceId>3</sourceId>
+		<destinationId>6</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>14</id>
+		<type>regular</type>
+		<sourceId>4</sourceId>
+		<destinationId>1</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>26</id>
+		<type>regular</type>
+		<sourceId>24</sourceId>
+		<destinationId>3</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>27</id>
+		<type>regular</type>
+		<sourceId>23</sourceId>
+		<destinationId>24</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>28</id>
+		<type>regular</type>
+		<sourceId>6</sourceId>
+		<destinationId>23</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>29</id>
+		<type>regular</type>
+		<sourceId>23</sourceId>
+		<destinationId>25</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>30</id>
+		<type>read</type>
+		<sourceId>23</sourceId>
+		<destinationId>17</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+</document>

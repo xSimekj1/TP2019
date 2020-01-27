@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://modeler.netgrif.com/petriflow_schema.xsd">
+    <!--  TRANSACTIONS  -->
+    <!--  ROLES  -->
+    <role>
+        <id>client</id>
+        <title>Client</title>
+    </role>
+    <role>
+        <id>system</id>
+        <title>System</title>
+    </role>
+    <!--  DATA  -->
+    <data type="text">
+        <id>type</id>
+        <title>Type</title>
+    </data>
+    <data type="text">
+        <id>listing</id>
+        <title>Listing</title>
+    </data>
+    <data type="boolean">
+        <id>payment</id>
+        <title>Payment</title>
+    </data>
+    <data type="text">
+        <id>price</id>
+        <title>Price</title>
+    </data>
+    <data type="text">
+        <id>name</id>
+        <title>Name</title>
+    </data>
+    <data type="text">
+        <id>surname</id>
+        <title>Surname</title>
+    </data>
+    <data type="text">
+        <id>tel_number</id>
+        <title>Phone number</title>
+        <placeholder>+421 901 000 000</placeholder>
+        <valid>regex("^[+]([0-9]+)([ ]?[0-9])+\$")</valid>
+    </data>
+    <data type="text">
+        <id>email</id>
+        <title>E-mail</title>
+        <placeholder>name@gmail.com</placeholder>
+        <valid>email</valid>
+    </data>
+    <data type="date">
+        <id>date_of_birth</id>
+        <title>Date of birth</title>
+    </data>
+    <data type="date">
+        <id>dateFrom</id>
+        <title>Date from</title>
+    </data>
+    <data type="date">
+        <id>dateTo</id>
+        <title>Date to</title>
+    </data>
+    <data type="text">
+        <id>insurance</id>
+        <title>Insurance number</title>
+        <placeholder>000000/0000</placeholder>
+    </data>
+    <data type="text">
+        <id>card_number</id>
+        <title>Card Number</title>
+		<placeholder>0000 0000 0000 0000</placeholder>
+        <valid>regex("[0-9]{16}")</valid>
+    </data>
+    <data type="text">
+        <id>expiration_date</id>
+        <title>Expiration Date</title>
+		<placeholder>00/00</placeholder>
+        <valid>regex("[0-9]{2}[/][0-9]{2}")</valid>
+    </data>
+    <data type="text">
+        <id>verification_code</id>
+        <title>Verification Code</title>
+		<placeholder>123</placeholder>
+        <valid>regex("[0-9]{3}")</valid>
+    </data>
+    <data type="text">
+        <id>payment_status</id>
+        <title>Payment status</title>
+    </data>
+	<data type="text">
+		<id>booking_succes</id>
+		<title>Succesfully Booked</title>
+		<values>area</values>
+		<init>Congratulations! Your reservation was succesfully booked.</init>
+	</data>
+    <data type="boolean">
+        <id>is_reserved</id>
+        <title>Is Reserved</title>
+    </data>
+    <!-- TRANSITIONS -->
+    <transition>
+        <id>7</id>
+        <x>239</x>
+        <y>67</y>
+        <label>reserve</label>
+        <roleRef>
+            <id>system</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <roleRef>
+            <id>client</id>
+            <logic>
+                <behavior>visible</behavior>
+            </logic>
+        </roleRef>
+        <dataGroup>
+            <id>booking</id>
+            <dataRef>
+                <id>listing</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+			<dataRef>
+				<id>dateFrom</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>dateTo</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>booking_succes</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+			</dataRef>
+        </dataGroup>
+    </transition>
+    <transition>
+        <id>16</id>
+        <x>669</x>
+        <y>221</y>
+        <label>fill payment info</label>
+        <roleRef>
+            <id>client</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <dataGroup>
+            <id>1</id>
+            <title>Vyplnenie platobnych udajov</title>
+            <dataRef>
+                <id>card_number</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>expiration_date</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>verification_code</id>
+                <logic>
+                    <behavior>editable</behavior>
+                    <behavior>required</behavior>
+                </logic>
+            </dataRef>
+        </dataGroup>
+    </transition>
+    <transition>
+        <id>24</id>
+        <x>965</x>
+        <y>68</y>
+        <label>receive payment</label>
+        <roleRef>
+            <id>system</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <event type="finish">
+            <id>createTransactionFree</id>
+            <actions phase="post">
+                <action trigger="set">
+                    listing: f.listing,
+                    name: f.name,
+                    surname: f.surname,
+                    price: f.price;
+                    def caze = createCase("TRS", "TRS", "green");
+                    def initTask = assignTask("2", caze);
+                    setData(initTask,[ "listing": ["value": listing.value, "type": "text"], "name": ["value": name.value, "type": "text"], "surname": ["value": surname.value, "type": "text"], "price": ["value": price.value, "type": "text"], "status": ["value": "Paid", "type": "text"]]);
+                </action>
+            </actions>
+        </event>
+    </transition>
+    <transition>
+        <id>36</id>
+        <x>970</x>
+        <y>356</y>
+        <label>rejected payment</label>
+        <roleRef>
+            <id>system</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <event type="finish">
+            <id>1</id>
+            <actions phase="post">
+                <action trigger="set">
+                    status : f.payment_status; change status value { "Nezaplatene" }
+                </action>
+            </actions>
+        </event>
+    </transition>
+    <transition>
+        <id>83</id>
+        <x>440</x>
+        <y>141</y>
+        <label>free [auto]</label>
+		<assignPolicy>auto</assignPolicy>
+        <roleRef>
+            <id>system</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+<!--		<event type="assign">-->
+<!--			<id>validateAuto</id>-->
+<!--			<actions phase="post">-->
+<!--				<action>-->
+<!--					isPayed: f.payment,-->
+<!--					transition: t.83;-->
+
+<!--					def taskId = "83";-->
+<!--					if (isPayed == true) {cancelTask(taskId);}-->
+<!--					else {finishTask(taskId);}-->
+<!--				</action>-->
+<!--			</actions>-->
+<!--		</event>-->
+        <event type="finish">
+            <id>createTransactionFree</id>
+            <actions phase="post">
+                <action trigger="set">
+                    listing: f.listing,
+                    name: f.name,
+                    surname: f.surname,
+                    price: f.price;
+                    def caze = createCase("TRS", "TRS", "green");
+                    def initTask = assignTask("2", caze);
+                    setData(initTask,[ "listing": ["value": listing.value, "type": "text"], "name": ["value": name.value, "type": "text"], "surname": ["value": surname.value, "type": "text"], "price": ["value": price.value, "type": "text"], "status": ["value": "Paid", "type": "text"]]);
+                </action>
+            </actions>
+        </event>
+    </transition>
+    <transition>
+        <id>88</id>
+        <x>113</x>
+        <y>226</y>
+        <label>reservation form</label>
+        <roleRef>
+            <id>client</id>
+            <logic>
+                <perform>true</perform>
+            </logic>
+        </roleRef>
+        <dataGroup>
+            <id>bookingData</id>
+            <title>Booking info</title>
+            <dataRef>
+                <id>type</id>
+                <logic>
+                    <behavior>visible</behavior>
+                    <action trigger="get">
+                        typ: f.type,
+                        dateFrom: f.dateFrom,
+                        dateTo: f.dateTo,
+                        insurance: f.insurance,
+                        transition: t.88,
+						reserved: t.7;
+
+                        make dateFrom, editable on transition when { return (typ.value).equals("Hotel"); }
+                        make dateTo, editable on transition when { return (typ.value).equals("Hotel"); }
+                        make insurance, hidden on transition when { return (typ.value).equals("Hotel");}
+
+                        make dateFrom, editable on transition when { return (typ.value).equals("Restaurant"); }
+						make dateFrom, visible on reserved when { return (typ.value).equals("Restaurant"); }
+                        make dateTo, hidden on transition when { return (typ.value).equals("Restaurant"); }
+						make dateTo, hidden on reserved when { return (typ.value).equals("Restaurant"); }
+                        make insurance, hidden on transition when { return (typ.value).equals("Restaurant");}
+
+                        make dateFrom, hidden on transition when { return (typ.value).equals("Health service"); }
+						make dateFrom, hidden on reserved when { return (typ.value).equals("Health service"); }
+                        make dateTo, hidden on transition when { return (typ.value).equals("Health service"); }
+						make dateTo, hidden on reserved when { return (typ.value).equals("Health service"); }
+                        make insurance, editable on transition when { return (typ.value).equals("Health service");}
+                    </action>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>listing</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>payment</id>
+                <logic>
+                    <behavior>visible</behavior>
+                </logic>
+            </dataRef>
+            <dataRef>
+                <id>price</id>
+                <logic>
+                    <action trigger="get">
+                        payment: f.payment,
+                        price: f.price,
+                        reservation: t.88;
+                        <!--                        NEVIEME DAT AJ REQUIRED AJ VISIBLE-->
+                        <!--                        make price,required on create when { return payment.value == true; }-->
+                        make price,visible on reservation when { return payment.value == true; }
+                        <!--                        change price value { (10) } when { return payment.value == true; }-->
+
+                        <!--                        make price,optional on create when { return payment.value == false; }-->
+                        make price,hidden on reservation when { return payment.value == false; }
+                    </action>
+                </logic>
+            </dataRef>
+        </dataGroup>
+        <dataGroup>
+            <id>userData</id>
+            <title>User Info</title>
+            <dataRef>
+				<id>name</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+            </dataRef>
+			<dataRef>
+				<id>surname</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>email</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>tel_number</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>insurance</id>
+				<logic>
+					<behavior>hidden</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>dateFrom</id>
+				<logic>
+					<behavior>hidden</behavior>
+				</logic>
+			</dataRef>
+			<dataRef>
+				<id>dateTo</id>
+				<logic>
+					<behavior>hidden</behavior>
+				</logic>
+			</dataRef>
+        </dataGroup>
+    </transition>
+    <!-- PLACES -->
+    <place>
+        <id>1</id>
+        <x>199</x>
+        <y>226</y>
+        <label>#6</label>
+        <tokens>0</tokens>
+        <static>false</static>
+    </place>
+    <place>
+        <id>23</id>
+        <x>969</x>
+        <y>216</y>
+        <label></label>
+        <tokens>0</tokens>
+        <static>false</static>
+    </place>
+    <place>
+        <id>27</id>
+        <x>440</x>
+        <y>65</y>
+        <label></label>
+        <tokens>0</tokens>
+        <static>false</static>
+    </place>
+    <place>
+        <id>87</id>
+        <x>36</x>
+        <y>226</y>
+        <label>#1</label>
+        <tokens>1</tokens>
+        <static>false</static>
+    </place>
+    <!-- ARCS -->
+    <arc>
+        <id>28</id>
+        <type>regular</type>
+        <sourceId>24</sourceId>
+        <destinationId>27</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>63</id>
+        <type>regular</type>
+        <sourceId>23</sourceId>
+        <destinationId>24</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>64</id>
+        <type>regular</type>
+        <sourceId>23</sourceId>
+        <destinationId>36</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>66</id>
+        <type>read</type>
+        <sourceId>27</sourceId>
+        <destinationId>7</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>85</id>
+        <type>regular</type>
+        <sourceId>83</sourceId>
+        <destinationId>27</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>86</id>
+        <type>regular</type>
+        <sourceId>1</sourceId>
+        <destinationId>83</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>89</id>
+        <type>regular</type>
+        <sourceId>87</sourceId>
+        <destinationId>88</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>90</id>
+        <type>regular</type>
+        <sourceId>88</sourceId>
+        <destinationId>1</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>102</id>
+        <type>regular</type>
+        <sourceId>36</sourceId>
+        <destinationId>1</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>103</id>
+        <type>regular</type>
+        <sourceId>1</sourceId>
+        <destinationId>16</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+    <arc>
+        <id>104</id>
+        <type>regular</type>
+        <sourceId>16</sourceId>
+        <destinationId>23</destinationId>
+        <multiplicity>1</multiplicity>
+    </arc>
+</document>
